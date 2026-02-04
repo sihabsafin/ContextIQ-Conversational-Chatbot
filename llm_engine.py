@@ -11,7 +11,6 @@ if not os.getenv("GROQ_API_KEY"):
 llm = ChatGroq(
     model="gemma2-9b-it",
     temperature=0.3
-    api_key=os.getenv("GROQ_API_KEY")
 )
 
 # Prompt template with history placeholder
