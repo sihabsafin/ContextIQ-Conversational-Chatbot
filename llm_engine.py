@@ -1,7 +1,8 @@
 import os
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_groq import ChatGroq
-from langchain.memory import ConversationBufferMemory
+from langchain_community.memory import ConversationBufferMemory
+
 
 # LLM
 llm = ChatGroq(
