@@ -1,0 +1,211 @@
+/* Dark Mode Theme (Default) */
+
+/* Main container */
+.stApp {
+    background: #0f0f1e;
+    color: #e0e0e0;
+}
+
+/* Chat bubbles - User */
+.chat-bubble-user {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 20px 20px 4px 20px;
+    margin: 12px 0;
+    max-width: 75%;
+    margin-left: auto;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    animation: slideInRight 0.3s ease-out;
+    word-wrap: break-word;
+}
+
+/* Chat bubbles - Bot */
+.chat-bubble-bot {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+    padding: 16px 20px;
+    border-radius: 20px 20px 20px 4px;
+    margin: 12px 0;
+    max-width: 75%;
+    margin-right: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid #2a2a3e;
+    animation: slideInLeft 0.3s ease-out;
+    word-wrap: break-word;
+}
+
+.chat-bubble-user strong,
+.chat-bubble-bot strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* User Guide Styling */
+.user-guide {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 30px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 1px solid #2a2a3e;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.user-guide h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.user-guide h3 {
+    color: #8b5cf6;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.user-guide h4 {
+    color: #a78bfa;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.user-guide ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.user-guide ul li {
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+}
+
+.user-guide ul li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+}
+
+.user-guide code {
+    background: #0f0f1e;
+    color: #fbbf24;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    border: 1px solid #2a2a3e;
+}
+
+.example-section {
+    background: rgba(102, 126, 234, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 3px solid #667eea;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background-color: #1a1a2e;
+}
+
+/* Code blocks in chat */
+.chat-bubble-bot pre {
+    background: #0f0f1e;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 8px 0;
+    border: 1px solid #2a2a3e;
+}
+
+.chat-bubble-bot code {
+    background: #2a2a3e;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #fbbf24;
+}
+
+/* Links */
+.chat-bubble-bot a {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+.chat-bubble-user a {
+    color: #fbbf24;
+    text-decoration: underline;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chat-bubble-user,
+    .chat-bubble-bot {
+        max-width: 90%;
+    }
+    
+    .user-guide {
+        padding: 20px;
+    }
+}
+
+/* Button hover effects */
+.stButton > button {
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+}

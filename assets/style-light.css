@@ -1,0 +1,212 @@
+/* Light Mode Theme */
+
+/* Main container */
+.stApp {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #1f2937;
+}
+
+/* Chat bubbles - User */
+.chat-bubble-user {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 20px 20px 4px 20px;
+    margin: 12px 0;
+    max-width: 75%;
+    margin-left: auto;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    animation: slideInRight 0.3s ease-out;
+    word-wrap: break-word;
+}
+
+/* Chat bubbles - Bot */
+.chat-bubble-bot {
+    background: white;
+    color: #1f2937;
+    padding: 16px 20px;
+    border-radius: 20px 20px 20px 4px;
+    margin: 12px 0;
+    max-width: 75%;
+    margin-right: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    animation: slideInLeft 0.3s ease-out;
+    word-wrap: break-word;
+}
+
+.chat-bubble-user strong,
+.chat-bubble-bot strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* User Guide Styling */
+.user-guide {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.user-guide h2 {
+    color: #6366f1;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.user-guide h3 {
+    color: #8b5cf6;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+.user-guide h4 {
+    color: #a78bfa;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.user-guide ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.user-guide ul li {
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+}
+
+.user-guide ul li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #6366f1;
+    font-weight: bold;
+}
+
+.user-guide code {
+    background: #f3f4f6;
+    color: #7c3aed;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    border: 1px solid #e5e7eb;
+}
+
+.example-section {
+    background: rgba(99, 102, 241, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 3px solid #6366f1;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* Code blocks in chat */
+.chat-bubble-bot pre {
+    background: #f3f4f6;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 8px 0;
+    border: 1px solid #e5e7eb;
+}
+
+.chat-bubble-bot code {
+    background: #e5e7eb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #7c3aed;
+}
+
+/* Links */
+.chat-bubble-bot a {
+    color: #6366f1;
+    text-decoration: underline;
+}
+
+.chat-bubble-user a {
+    color: #fbbf24;
+    text-decoration: underline;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4f46e5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chat-bubble-user,
+    .chat-bubble-bot {
+        max-width: 90%;
+    }
+    
+    .user-guide {
+        padding: 20px;
+    }
+}
+
+/* Button hover effects */
+.stButton > button {
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
