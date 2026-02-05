@@ -1,8 +1,38 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, AIMessage
+from langchain.callbacks.base import BaseCallbackHandler
 import streamlit as st
 import os
+
+# LangSmith tracing setup
+def setup_langsmith_tracing():
+    """Setup LangSmith tracing if API key is available"""
+    try:
+        langsmith_key = st.secrets.get("LANGSMITH_API_KEY", "")
+        if langsmith_key:
+            os.environ["LANGCHAIN_TRACING_V2"] = "true"
+            os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+            os.environ["LANGCHAIN_API_KEY"] = langsmith_key
+            os.environ["LANGCHAIN_PROJECT"] = "ContextIQ-Chatbot"
+            return True
+        return False
+    except Exception as e:
+        print(f"LangSmith setup error: {e}")
+        return False
+
+# Streaming callback handler
+class StreamHandler(BaseCallbackHandler):
+    def __init__(self, container):
+        self.container = container
+        self.text = ""
+    
+    def on_llm_new_token(self, token: str, **kwargs) -> None:
+        self.text += token
+        self.container.markdown(self.text + "▌")
+    
+    def on_llm_end(self, *args, **kwargs) -> None:
+        self.container.markdown(self.text)
 
 # Global LLM instance
 llm = None
@@ -12,10 +42,14 @@ def initialize_llm(
     model: str = "llama-3.3-70b-versatile",
     temperature: float = 0.3,
     max_tokens: int = 2048,
-    system_prompt: str = None
+    system_prompt: str = None,
+    streaming: bool = True
 ):
     """Initialize the Groq LLM with specified parameters"""
     global llm, current_config
+    
+    # Setup LangSmith tracing
+    setup_langsmith_tracing()
     
     # Get API key from Streamlit secrets
     try:
@@ -23,26 +57,37 @@ def initialize_llm(
     except:
         raise ValueError(
             "GROQ_API_KEY not found in Streamlit secrets. "
-            "Please add it in your Streamlit Cloud dashboard."
+            "Please add it in your Streamlit Cloud dashboard or .streamlit/secrets.toml"
         )
     
     try:
-        # Initialize Groq LLM
+        # Initialize Groq LLM with proper model names
+        # Map old model names to new ones if needed
+        model_mapping = {
+            "llama-3.3-70b-versatile": "llama-3.3-70b-versatile",
+            "llama-3.1-70b-versatile": "llama-3.1-70b-versatile",
+            "mixtral-8x7b-32768": "mixtral-8x7b-32768",
+            "gemma2-9b-it": "gemma2-9b-it"
+        }
+        
+        actual_model = model_mapping.get(model, model)
+        
         llm = ChatGroq(
-            model=model,
+            model=actual_model,
             temperature=temperature,
             max_tokens=max_tokens,
             groq_api_key=api_key,
-            streaming=False,
-            max_retries=2,
-            request_timeout=30,
+            streaming=streaming,
+            max_retries=3,
+            request_timeout=60,
         )
         
         current_config = {
             "model": model,
             "temperature": temperature,
             "max_tokens": max_tokens,
-            "system_prompt": system_prompt
+            "system_prompt": system_prompt,
+            "streaming": streaming
         }
         
         return True
@@ -72,9 +117,11 @@ def get_ai_response(
     chat_history: list,
     temperature: float = None,
     max_tokens: int = None,
-    system_prompt: str = None
+    system_prompt: str = None,
+    streaming: bool = True,
+    stream_container=None
 ) -> str:
-    """Generate AI response with conversation history"""
+    """Generate AI response with conversation history and optional streaming"""
     global llm
     
     if llm is None:
@@ -97,9 +144,14 @@ def get_ai_response(
             input=user_input
         )
         
-        # Invoke LLM
-        response = llm.invoke(messages)
-        return response.content
+        # Invoke LLM with or without streaming
+        if streaming and stream_container:
+            stream_handler = StreamHandler(stream_container)
+            response = llm.invoke(messages, config={"callbacks": [stream_handler]})
+            return response.content
+        else:
+            response = llm.invoke(messages)
+            return response.content
         
     except Exception as e:
         error_str = str(e).lower()
@@ -121,5 +173,31 @@ def get_ai_response(
                 "⚠️ **Request Timeout**\n\n"
                 "The request took too long. Please try again or select a different model."
             )
+        elif "model" in error_str or "not found" in error_str:
+            return (
+                f"⚠️ **Model Error**\n\n"
+                f"The model '{current_config.get('model')}' may not be available. "
+                f"Try selecting a different model from the sidebar."
+            )
         else:
             return f"⚠️ **Error**: {str(e)}\n\nPlease try again or contact support if the issue persists."
+
+def regenerate_response(
+    user_input: str,
+    chat_history: list,
+    temperature: float = None,
+    max_tokens: int = None,
+    system_prompt: str = None,
+    streaming: bool = True,
+    stream_container=None
+) -> str:
+    """Regenerate the last AI response with potentially different parameters"""
+    return get_ai_response(
+        user_input,
+        chat_history,
+        temperature,
+        max_tokens,
+        system_prompt,
+        streaming,
+        stream_container
+    )
